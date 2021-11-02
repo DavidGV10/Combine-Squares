@@ -4,37 +4,37 @@ class Game {
         this.canvas = null;
         this.ctx = null;
         this.score = 0;
-        this.arr =[ 
-            [2,4,2],
-            [2,8,2],
-            [2,2,2]
-        ]
-        this.direction = "down"
+        this.arr = null
+        this.direction = "null"
     }
-    start(){
+    start(size){
+        let tableSize = Number(size)
+        this.arr = [...Array(tableSize)].map((e) => Array(tableSize).fill(0))
+        
         this.newCell()
         this.newCell()
-        this.drawTable(this.arr)
+        console.log(this.arr)
+        this.drawTable(this.arr, tableSize)
         this.handleKeyDown = (event) => {
             
             if (event.code === "ArrowLeft") {
                 this.direction = "left"
                 this.addPairs(this.arr)
                 if(this.gameOver(this.arr) !== false){
-                    const divOver = document.querySelector(".gameOver")
+                    const divOver = document.querySelector(".hidden")
                     const divCanvas = document.querySelector("#canvas")
                     divOver.classList.add("visible")
-                    divCanvas.classList.add("hidden")
+                    divCanvas.classList.add("opacity")
                 }
             }
             else if(event.code === "ArrowRight"){
                 this.direction = "right"
                 this.addPairs(this.arr)
                 if(this.gameOver(this.arr) !== false){
-                    const divOver = document.querySelector(".gameOver")
+                    const divOver = document.querySelector(".hidden")
                     const divCanvas = document.querySelector("#canvas")
                     divOver.classList.add("visible")
-                    divCanvas.classList.add("hidden")
+                    divCanvas.classList.add("opacity")
 
                 }
             }
@@ -42,19 +42,19 @@ class Game {
                 this.direction = "up"
                 this.addPairs(this.arr)
                 if(this.gameOver(this.arr) !== false){
-                    const divOver = document.querySelector(".gameOver")
+                    const divOver = document.querySelector(".hidden")
                     const divCanvas = document.querySelector("#canvas")
                     divOver.classList.add("visible")
-                    divCanvas.classList.add("hidden")
+                    divCanvas.classList.add("opacity")
                 }
             }else if(event.code === "ArrowDown"){
                 this.direction = "down"
                 this.addPairs(this.arr)
                 if(this.gameOver(this.arr) !== false){
-                    const divOver = document.querySelector(".gameOver")
+                    const divOver = document.querySelector(".hidden")
                     const divCanvas = document.querySelector("#canvas")
                     divOver.classList.add("visible")
-                    divCanvas.classList.add("hidden")
+                    divCanvas.classList.add("opacity")
                 }
             }
           };
@@ -65,15 +65,12 @@ class Game {
         let gameOver = null
         this.arr.map((arr)=>{
             arr.map((a, index)=>{
-                a
-                console.log(arr[index+1])
                 if(a === arr[index+1]){
                     
                    return gameOver = false
                 }
             })
         })   
-        gameOver
         
         let verticalArr = []
         for(let i = 0; i<this.arr.length ; i++){
@@ -108,13 +105,20 @@ class Game {
         return gameOver   
     }
     
-    drawTable =(table) =>{
+    drawTable =(table, tableSize) =>{
+        let size = tableSize *100
         this.canvas = document.querySelector("canvas");
+        this.canvas.setAttribute(`width`, `${size}`)
+        this.canvas.setAttribute(`height`, `${size}`)
         this.ctx = canvas.getContext("2d");
         this.ctx.font = "30px Arial";
         let line = 100
         let y = 50  
         let x;
+        table
+        
+        
+        
         for(let elem of table){
             this.ctx.beginPath();
             this.ctx.moveTo(line, 0);
@@ -141,28 +145,21 @@ class Game {
     newCell = ()=> {
         //Check if the table is already full.
         let countBlank = 0
-        for(let elem of this.arr){
-            
-            elem
+        for(let elem of this.arr){      
             elem.map((a)=> {
                 if (a === 0){ countBlank++}
             })
         }
-        
         //If not full, add new cell
         if(countBlank !== 0){
-            this.arr.map((a)=>{
-                a
-            })
             let row = this.getRandom()
             let index = this.getRandom()
-    
             if(this.arr[row][index] === 0){ 
                 this.arr[row][index] = 2
             }else{
                 this.newCell()
             }
-    
+
         }
     }
     
@@ -191,17 +188,17 @@ class Game {
             }
         }
         this.arr = this.arr.map((a)=> a.filter((a)=>a !== 0)) 
-        console.log(this.arr)
-            
+                    
         for(let elem of this.arr){
-            elem
+            
             elem.map((a, index)=>{ 
-            a
+            
             let next = index+1
-            a
-            next
+            
+            
             if(a === elem[next]){
                 elem[index] = a + elem[next]
+                this.score = a + elem[next]
                 elem[next]= 0
                 }
                 
@@ -219,8 +216,11 @@ class Game {
  
         this.moveX(this.arr)
     }
+    printScore = ()=>{
+
+    }
     moveX = (arr) => {
-        arr
+        
         let arr2 = arr.slice()
         
         this.arr = []
@@ -256,19 +256,19 @@ class Game {
             for(let i=0; i< horizontalArr.length; i++){
                 this.arr.push([])
             }
-            console.log(this.arr)
+            
             horizontalArr.map((a)=>{
                 a.map((b, index)=>{
                     this.arr[index].push(b)
-                    console.log(this.arr[index])
+                    
                 })
             })
-            console.log(this.arr)
+           
         }
         
         this.newCell()
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawTable(this.arr)
+        this.drawTable(this.arr, size)
         
         
         
@@ -277,13 +277,57 @@ class Game {
 }
 
 const game = new Game()
-game.addPairs(game.arr)
+//game.start(game.arr)
 
 
 
 
 
+let arr = new Array(6).fill(0)
+arr.fill(new Array(6))
+arr
+arr.forEach(elem =>{
+    elem
+    elem.fill(0)
+})
+let arr3 = arr.slice()
+let arr2 = [
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+    [0,0,0,0,0,0],
+]
+const getRandom = ()=>{
+    return Math.floor(Math.random() * arr.length)
+}
+arr
+arr2
 
+
+let row = getRandom()
+let index = getRandom()
+
+
+let arr4 = [...Array(6)].map((e) => Array(6).fill(0));
+arr4
+
+if(arr4[row][index] === 0){ 
+    arr4[row][index] = 2
+}
+arr4
+
+
+if(arr3[row][index] === 0){ 
+    arr3[row][index] = 2
+}
+
+if(arr2[row][index] === 0){ 
+    arr2[row][index] = 2
+}
+arr3
+arr2
 
 
 

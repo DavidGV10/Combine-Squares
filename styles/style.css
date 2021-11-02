@@ -22,34 +22,22 @@ body {
     border: 2px solid black;
   }
   
-  .gameOver{
-    display: none;
-    height: 600px;
-    width : 600px;
-}
-  .gameOver h1{
-    position: relative;
-    top: 200px;
-    width: 200px;
-    height: 100px;
+  
+  select {
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+    margin-bottom: 100px;
+    text-align-last:center;
   }
+
   .hidden{
-    opacity: 0.2;
+    display: none
   }
-  .visible{
+  .opacity {
+    opacity : 0.2
+  }
+  .visible {
     display: block;
-}
-#game-board{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  width: 100vw; 
-}
-select {
-  width: 100px;
-  height: 50px;
-  font-size: 20px;
-  margin-bottom: 100px;
-  text-align-last:center;
-}
+  }
+
