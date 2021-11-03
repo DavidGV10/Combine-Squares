@@ -39,17 +39,25 @@ const splash = () => {
         <div id="game-board">
             <div id="canvascontainer">
                 <canvas id="canvas"></canvas>
-                <div id="scoreContainer">
+                <div id="rest">
+                    <div id="scoreContainer">
+                        <div class="boxscore">
+                            <div>High Score</div>
+                            <div id="highscore"></div>
+                        </div>
+                        <div class="boxscore">
+                            <div>Score</div>
+                            <div id="score"></div>
+                        </div>
+                    </div>
                     <div>
-                        <div>Score</div>
-                        <div id="score"></div>
-                    </div>
-                    <div class="gameOver">
-                    <div class="hidden">
-                        <h2>Game Over!!</h2>
-                        <button id="game">TRY AGAIN</button>
-                    </div>
-                    
+                        <div>Time left: <span id="time"></span></div>
+                        <div class="gameOver">
+                            <div class="hidden">
+                                <h2>Game Over!!</h2>
+                                <button id="game">TRY AGAIN</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -62,16 +70,8 @@ const splash = () => {
         const mode = "timer"
         const game = new Game(size, mode)
         game.start();
-        const tryAgain = () => {
-            game.arr = null
-            game.score = 0
-            const divOver = document.querySelector(".visible")
-            const divCanvas = document.querySelector("#canvas")
-            divOver.classList.remove("visible")
-            divCanvas.classList.remove("opacity")
-            game.start()
-        }
-        let tryagain = document.querySelector("#game").addEventListener("click", tryAgain)    
+        
+        let tryagain = document.querySelector("#game").addEventListener("click", game.tryAgain)    
 
     }
 

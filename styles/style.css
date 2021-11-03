@@ -1,5 +1,6 @@
 body {
     text-align: center;
+    font-family: system-ui;
   }
   
   body h1 {
@@ -43,10 +44,13 @@ body {
 
   #canvascontainer {
     margin-top: 100px;
-    width: 70%;
+    width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 
+  }
+  #rest{
+    width: 400px;
   }
 
   #game-board {
@@ -62,8 +66,16 @@ body {
   }
 
   #scoreContainer {
-    position: relative;
-    border: 1px solid black;
-    height: 250px;
-    width: 250px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    margin-bottom: 50px;
+    height: 60px;
+    border: 1px solid;
+  }
+  .boxscore {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }

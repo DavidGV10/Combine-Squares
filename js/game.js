@@ -7,14 +7,40 @@ class Game {
         this.arr = null;
         this.direction = "null";
         this.mode = "timer"
-        this.size = size
+        this.size = size;
+        this.high = 0
+    }
+    start = (currentHigh)=>{ 
+        this.printHigh()
+        if(currentHigh > this.high){
+            this.high = currentHigh
+        }     
+        if(this.mode === "timer"){
+            this.countdown()
+            setTimeout(()=>{ 
+                //Stop addEventListener for the keys
+                this.stop()
+                const divOver = document.querySelector(".hidden")
+                const divCanvas = document.querySelector("#canvas")
+                divOver.classList.add("visible")
+                divCanvas.classList.add("opacity")
+
+             }, 5000)
+        }
+        let tableSize = Number(this.size)
+        this.arr = [...Array(tableSize)].map((e) => Array(tableSize).fill(0))
+        
+        this.newCell()
+        this.newCell()
+        this.drawTable(this.arr, tableSize)
+        //bind(this) 
+        document.body.addEventListener("keydown", this.handleKeyDown);
     }
     stop= ()=>{
         document.body.removeEventListener("keydown", this.handleKeyDown);    
     }
 
-    handleKeyDown = (event)=> {
-        console.log("end key down ", this)                
+    handleKeyDown = (event)=> {              
 
         if (event.code === "ArrowLeft") {
             this.direction = "left"
@@ -57,25 +83,20 @@ class Game {
             }
         }
       };
-      start = ()=>{      
-        if(this.mode === "timer"){
-            setTimeout(()=>{ 
-                this.stop()
-                const divOver = document.querySelector(".hidden")
-                const divCanvas = document.querySelector("#canvas")
-                divOver.classList.add("visible")
-                divCanvas.classList.add("opacity")
-             }, 3000)
-        }
-        let tableSize = Number(this.size)
-        this.arr = [...Array(tableSize)].map((e) => Array(tableSize).fill(0))
-        
-        this.newCell()
-        this.newCell()
-        this.drawTable(this.arr, tableSize)
-        //bind(this) 
-        document.body.addEventListener("keydown", this.handleKeyDown);
+    timeleft = (sec)=> {
+        const printTime = document.querySelector("#time")
+        printTime.textContent = `${sec} seconds`
     }
+
+    countdown = () => {
+        let i = 4
+        const countdownInterval = setInterval(()=>{
+            this.timeleft(i)
+            i--
+            if(i < 0) clearInterval(countdownInterval)   
+        }, 1000);
+        }
+
     gameOver=(arr)=> {
 
         let gameOver = null
@@ -118,6 +139,29 @@ class Game {
         gameOver
         return gameOver   
     }
+    getHigh = () => {
+        if(this.score > this.high ){ 
+            this.high = this.score
+        }
+        else{this.high = this.high}
+        return this.high
+    }
+
+    printHigh = () => {
+        let highdiv = document.querySelector("#highscore")
+        console.log(this.high)
+        highdiv.textContent = this.high
+    }
+    tryAgain = () => {
+        this.getHigh()
+        this.arr = null
+        this.score = 0
+        const divOver = document.querySelector(".visible")
+        const divCanvas = document.querySelector("#canvas")
+        divOver.classList.remove("visible")
+        divCanvas.classList.remove("opacity")
+        this.start(this.newHigh)
+    }
     
     drawTable =(table, tableSize) =>{
         let size = Number(tableSize * 100)
@@ -131,7 +175,6 @@ class Game {
         let x;
         
         for(let elem of table){  
-            console.log(table)
             //this.ctx.fillStyle = "white";
             //this.ctx.lineWidth = 5;
             //this.ctx.beginPath();
@@ -240,15 +283,12 @@ class Game {
                 i
                 this.arr.push([])
             }
-            
             verticalArr.map((a)=>{
                 a.map((b, index)=>{
                     this.arr[index].push(b)
                 })
             })
-            
         } 
-        console.log(this.arr)
         if(this.direction === "right" || this.direction === "down"){
             for(let elem of this.arr){
                 elem = elem.reverse()
@@ -257,30 +297,23 @@ class Game {
         this.arr = this.arr.map((a)=> a.filter((a)=>a !== 0)) 
                     
         for(let elem of this.arr){
-            
             elem.map((a, index)=>{ 
-            
             let next = index+1
-            
-            
             if(a === elem[next]){
                 elem[index] = a + elem[next]
                 this.score = this.score + a + elem[next]
                 elem[next]= 0
-                }
-                
+                }  
             })
             if(elem.length < this.arr.length){
                 let spaceLeft = this.arr.length - elem.length
                 spaceLeft
                 for(let i = 0; i < spaceLeft ; i++){
                     elem.push(0)
-                }
-                
+                } 
             }
             elem.reverse()
         }
- 
         this.moveX(this.arr)
     }
     moveX = (arr) => {
