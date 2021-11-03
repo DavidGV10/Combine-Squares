@@ -41,3 +41,29 @@ body {
     display: block;
   }
 
+  #canvascontainer {
+    margin-top: 100px;
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
+
+  }
+
+  #game-board {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gameOver {
+    width: 100%;
+    height: 100%;
+    background-color: aquamarine
+  }
+
+  #scoreContainer {
+    position: relative;
+    border: 1px solid black;
+    height: 250px;
+    width: 250px;
+  }
