@@ -1,4 +1,5 @@
 let size;
+let selectedValue;
 const buildDom = (html) => {
     const main = document.querySelector("main")
     main.innerHTML = html
@@ -9,8 +10,22 @@ const buildDomGameOver = (html) => {
 const val = () => {
     const table = document.querySelector("select")
     size = table.options[table.selectedIndex].value;
-    //console.log(size)
     return size
+}
+const handleChange= (src) =>{
+    selectedValue = src.value
+    return selectedValue
+}
+const isChecked = ()=>{
+    if(selectedValue !== undefined){
+        buildGameScreen()
+   }else{
+        error()
+   }
+}
+const error = () => {
+    const error = document.querySelector(".error")
+    error.textContent = "Select an option!"
 }
 const splash = () => {
     buildDom(     
@@ -22,18 +37,29 @@ const splash = () => {
                 <option value="4">4x4</option>
                 <option value="5">5x5</option>
             </select>
+            <div class="mode">
+                <form name="myForm">
+                    <input onchange="handleChange(this);" type="radio" name="gameMode" value="freePlay" >
+                    <label for="freePlay">Free Play</label><br>
+                    <input onchange="handleChange(this);" type="radio" name="gameMode" value="timer">
+                    <label for="timer">Against the clock</label><br>
+                </form>
+                <span class="error"></span>
+            </div>
         <div>
 
         <button id="startButton">Start Game</button>`
     );
     const table = document.querySelector("select")
     size = table.options[table.selectedIndex].value;
-    //console.log("h"+size)
+    
     const startButton = document.getElementById("startButton")
-    startButton.addEventListener("click", buildGameScreen);
+    startButton.addEventListener("click", isChecked);   
+    
     }   
     //Second Screen
     const buildGameScreen = ()=> {
+
         buildDom(
         `
         <div id="game-board">
@@ -67,7 +93,8 @@ const splash = () => {
         
         
         `)
-        const mode = "timer"
+            
+        const mode = selectedValue
         const game = new Game(size, mode)
         game.start();
         

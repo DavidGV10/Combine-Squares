@@ -3,10 +3,10 @@ class Game {
     constructor(size, mode){
         this.canvas = null;
         this.ctx = null;
-        this.score = 0;
+        this.score = 0; 
         this.arr = null;
         this.direction = "null";
-        this.mode = "timer"
+        this.mode = mode
         this.size = size;
         this.high = 0
     }
@@ -189,7 +189,12 @@ class Game {
                 elem.map((a)=>{
                     a = String(a)
                     if(a==="0"){
+                        this.ctx.fillStyle = "white";
+                        this.ctx.fillRect(x-49, y-49, 100, 100)
                         this.ctx.fillText(" ", x, y)
+                        this.ctx.lineWidth = 1;
+                        this.ctx.strokeStyle = 'grey'
+                        this.ctx.strokeRect(x-49, y-49, 100, 100)
                     }
                     else{
                         let colors = {
@@ -228,8 +233,7 @@ class Game {
                                 this.ctx.fillText(a, x-30, y)
                             }else{
                                 this.ctx.fillText(a, x-10, y)
-                            }
-                                
+                            }  
                             //Create border of cells
                             this.ctx.lineWidth = 1;
                             this.ctx.strokeStyle = 'grey'
@@ -372,61 +376,4 @@ class Game {
         
     } 
 }
-
-const game = new Game()
-game.drawTable(game.arr)
-
-
-
-
-
-let arr = new Array(6).fill(0)
-arr.fill(new Array(6))
-arr
-arr.forEach(elem =>{
-    elem
-    elem.fill(0)
-})
-let arr3 = arr.slice()
-let arr2 = [
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-    [0,0,0,0,0,0],
-]
-const getRandom = ()=>{
-    return Math.floor(Math.random() * arr.length)
-}
-arr
-arr2
-
-
-let row = getRandom()
-let index = getRandom()
-
-
-let arr4 = [...Array(6)].map((e) => Array(6).fill(0));
-arr4
-
-if(arr4[row][index] === 0){ 
-    arr4[row][index] = 2
-}
-arr4
-
-
-if(arr3[row][index] === 0){ 
-    arr3[row][index] = 2
-}
-
-if(arr2[row][index] === 0){ 
-    arr2[row][index] = 2
-}
-arr3
-arr2
-
-
-
-
 
