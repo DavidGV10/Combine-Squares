@@ -1,6 +1,7 @@
 body {
     text-align: center;
     font-family: system-ui;
+    background-color: cornsilk;
   }
   
   body h1 {
@@ -18,11 +19,14 @@ body {
     border-radius: 5px;
     margin-bottom: 20px;
   }
+  #startButton {
+    margin-top: 60px;
+  }
+
   
   #canvas {
     border: 2px solid black;
   }
-  
   
   select {
     width: 100px;
@@ -31,7 +35,11 @@ body {
     margin-bottom: 70px;
     text-align-last:center;
   }
-
+  .select{
+    width: 60%;
+    left: 20%;
+    position: relative;
+  }
   .hidden{
     display: none
   }
@@ -79,3 +87,32 @@ body {
     flex-direction: column;
     justify-content: center;
   }
+  .selected{
+    background: green
+  }
+
+  .mode .modeselection {
+    display: inline-block;
+    cursor: pointer;
+    width: 250px; 
+    border: 1px solid;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: darkseagreen;
+    color: white;
+}
+
+.mode input[type=radio] {
+    display: none;
+}
+
+.mode input[type=radio]:checked + .modeselection {
+    background-color: green;
+}
+.mode{
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}

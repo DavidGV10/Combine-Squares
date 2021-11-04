@@ -16,36 +16,34 @@ const handleChange= (src) =>{
     selectedValue = src.value
     return selectedValue
 }
+
 const isChecked = ()=>{
     if(selectedValue !== undefined){
         buildGameScreen()
    }else{
-        error()
+        const error = document.querySelector(".error")
+        error.textContent = "Select an option!"
    }
 }
-const error = () => {
-    const error = document.querySelector(".error")
-    error.textContent = "Select an option!"
-}
+
 const splash = () => {
     buildDom(     
         `
-        <div class"select">
+        <div class="select">
             <h1>Select table</h1>
             <select name="select" onchange="val()">
                 <option value="3">3x3</option>
                 <option value="4">4x4</option>
                 <option value="5">5x5</option>
             </select>
+            <h3>Select your game mode</h3>
             <div class="mode">
-                <form name="myForm">
-                    <input onchange="handleChange(this);" type="radio" name="gameMode" value="freePlay" >
-                    <label for="freePlay">Free Play</label><br>
-                    <input onchange="handleChange(this);" type="radio" name="gameMode" value="timer">
-                    <label for="timer">Against the clock</label><br>
-                </form>
-                <span class="error"></span>
+                        <input onchange="handleChange(this);" id="freePlay" type="radio" name="gameMode" value="freePlay" >
+                        <label class="modeselection" for="freePlay">Free Play</label><br>
+                        <input onchange="handleChange(this);" id="timer" type="radio" name="gameMode" value="timer">
+                        <label class="modeselection" for="timer">Against the clock</label><br>   
             </div>
+            <span class="error"></span>
         <div>
 
         <button id="startButton">Start Game</button>`
