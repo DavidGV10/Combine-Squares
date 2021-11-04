@@ -22,7 +22,7 @@ const isChecked = ()=>{
         buildGameScreen()
    }else{
         const error = document.querySelector(".error")
-        error.textContent = "Select an option!"
+        error.textContent = "You must select a game mode!"
    }
 }
 
