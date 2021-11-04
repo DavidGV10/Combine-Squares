@@ -29,6 +29,7 @@ const isChecked = ()=>{
 const splash = () => {
     buildDom(     
         `
+        <img id="logo" src="/ownGame/img/logo.png" alt="Combine Squares">
         <div class="select">
             <h1>Select table</h1>
             <select name="select" onchange="val()">
@@ -60,6 +61,7 @@ const splash = () => {
 
         buildDom(
         `
+        <img id="logo" src="/ownGame/img/logo.png" alt="Combine Squares">
         <div id="game-board">
             <div id="canvascontainer">
                 <canvas id="canvas"></canvas>

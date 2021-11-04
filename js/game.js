@@ -147,11 +147,7 @@ class Game {
         return this.high
     }
 
-    printHigh = () => {
-        let highdiv = document.querySelector("#highscore")
-        console.log(this.high)
-        highdiv.textContent = this.high
-    }
+
     tryAgain = () => {
         this.getHigh()
         this.arr = null
@@ -189,7 +185,7 @@ class Game {
                 elem.map((a)=>{
                     a = String(a)
                     if(a==="0"){
-                        this.ctx.fillStyle = "white";
+                        this.ctx.fillStyle = "GhostWhite";
                         this.ctx.fillRect(x-49, y-49, 100, 100)
                         this.ctx.fillText(" ", x, y)
                         this.ctx.lineWidth = 1;
@@ -198,27 +194,27 @@ class Game {
                     }
                     else{
                         let colors = {
-                            2: "GhostWhite",
-                            4: "DarkSalmon",
-                            8: "Orange",
-                            16: "OrangeRed",
-                            32: "FireBrick",
+                            2: "PapayaWhip",
+                            4: "Wheat",
+                            8: "LightSalmon",
+                            16: "darkorange",
+                            32: "IndianRed",
 
-                            64: "Maroon",
-                            128: "DarkSalmon",
-                            256: "Orange",
+                            64: "LightCoral",
+                            128: "Gold",
+                            256: "DarkOrange",
                             512: "OrangeRed",
                             1024: "FireBrick",
 
                             2048: "Maroon",
-                            4096: "DarkSalmon",
-                            8192: "Orange",
+                            4096: "Gold",
+                            8192: "DarkOrange",
                             16384: "OrangeRed",
                             32768: "FireBrick",
 
                             65536: "Maroon",
-                            131072: "DarkSalmon",
-                            262144: "Orange",
+                            131072: "Gold",
+                            262144: "DarkOrange",
                             524288: "OrangeRed",
                             1048576: "FireBrick"
                         }
@@ -226,7 +222,8 @@ class Game {
                         if(keys.includes(a)){
                             this.ctx.fillStyle = colors[a];
                             this.ctx.fillRect(x-49, y-49, 100, 100)
-                            this.ctx.fillStyle = 'black'
+                            Number(a)>4 ? this.ctx.fillStyle = 'white' : this.ctx.fillStyle = 'black'
+                            //this.ctx.fillStyle = 'black'
                             if(a.length === 2){
                                 this.ctx.fillText(a, x-20, y)
                             }else if(a.length === 3){    
@@ -247,10 +244,18 @@ class Game {
             y+= 100;
         }
         this.printScore()
+        if(this.score > this.high){
+            this.high = this.score
+            this.printHigh()
+        }
     }
     printScore = () => {
         const scoreDiv = document.querySelector("#score")
         scoreDiv.textContent = this.score
+    }
+    printHigh = () => {
+        let highdiv = document.querySelector("#highscore")
+        highdiv.textContent = this.high
     }
     getRandom = ()=>{
         return Math.floor(Math.random() * this.arr.length)
