@@ -39,9 +39,9 @@ const splash = () => {
             <h3>Select your game mode</h3>
             <div class="mode">
                         <input onchange="handleChange(this);" id="freePlay" type="radio" name="gameMode" value="freePlay" >
-                        <label class="modeselection" for="freePlay">Free Play</label><br>
+                        <label class="modeselection" for="freePlay">Free Play</label>
                         <input onchange="handleChange(this);" id="timer" type="radio" name="gameMode" value="timer">
-                        <label class="modeselection" for="timer">Against the clock</label><br>   
+                        <label class="modeselection" for="timer">Against the clock</label> 
             </div>
             <span class="error"></span>
         <div>
