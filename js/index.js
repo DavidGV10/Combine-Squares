@@ -32,7 +32,7 @@ const splash = () => {
     buildDom(     
         `
         <div class="logo">
-            <img id="logo" src="/img/logo3.png" alt="Combine Squares">
+            <img id="logo" src="./img/logo3.png" alt="Combine Squares">
             <div class="howto">
                 <p>HOW TO PLAY:</br> Use your arrow keys to move the tiles. </br>Tiles with the same number merge into one when they touch. </br>   Add them up to reach 2048!</p>
             </div>
