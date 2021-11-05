@@ -1,5 +1,7 @@
 let size;
 let selectedValue;
+const game = new Game()
+
 const buildDom = (html) => {
     const main = document.querySelector("main")
     main.innerHTML = html
@@ -31,6 +33,9 @@ const splash = () => {
         `
         <div class="logo">
             <img id="logo" src="/img/logo3.png" alt="Combine Squares">
+            <div class="howto">
+                <p>HOW TO PLAY:</br> Use your arrow keys to move the tiles. </br>Tiles with the same number merge into one when they touch. </br>   Add them up to reach 2048!</p>
+            </div>
         </div>
         <div class="select">
             <h3>Select table</h3>
@@ -69,6 +74,7 @@ const splash = () => {
         <div id="game-board">
             <div id="canvascontainer">
                 <canvas id="canvas"></canvas>
+                <button id="return">End Game</button>
             </div>
             <div id="rest">
                     <div id="scoreContainer">
@@ -101,11 +107,10 @@ const splash = () => {
         `)
             
         const mode = selectedValue
-        const game = new Game(size, mode)
-        game.start();
-        
-        let tryagain = document.querySelector("#game").addEventListener("click", game.tryAgain)    
-        let change = document.querySelector("#change").addEventListener("click", game.changeSettings)
+        game.start(size, mode);
+        document.querySelector("#return").addEventListener("click", game.returnSplash)
+        document.querySelector("#game").addEventListener("click", game.tryAgain)    
+        document.querySelector("#change").addEventListener("click", game.changeSettings)
     }
 
     //Third Screen

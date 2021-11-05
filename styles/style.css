@@ -57,7 +57,10 @@ body {
   .visible {
     display: block;
   }
-
+  .howto{
+    color: white;
+    height: 100vh
+  }
   #canvascontainer {
     margin-top: 25px;
     display: flex;
@@ -175,7 +178,11 @@ body {
   margin-top: 40px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 815px) {
+  .howto{
+    padding-bottom: 50px;
+    height: auto
+  }
   #canvascontainer{
     width: 70%;
 

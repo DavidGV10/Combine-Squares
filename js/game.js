@@ -1,17 +1,20 @@
 "use strict";
 class Game {
-    constructor(size, mode){
+    constructor(){
         this.canvas = null;
         this.ctx = null;
         this.score = 0; 
         this.direction = "null";
-        this.mode = mode
-        this.size = size;
+        this.mode = "freeplay"
+        this.size = 3;
         this.high = 0
-        this.endthisgame = false
+        this.timer = 60;
+        this.countdownID = null
     }
-    start = (currentHigh)=>{ 
+    start = (size= 3, mode="freeplay", currentHigh)=>{ 
         //check in case of settings being changed after a game
+        this.mode = mode;
+        this.size = size;
         const divOver = document.querySelector("#divOver")
         const divCanvas = document.querySelector("#canvas")
         divOver.classList.remove("visible")
@@ -29,19 +32,12 @@ class Game {
             timeOnScreen.classList.remove("visible2")
         }  
         if(this.mode === "timer"){
+         
             this.countdown()
-            setTimeout(()=>{ 
-                //Stop addEventListener for the keys
-                this.stop()
-                const divOver = document.querySelector(".hidden")
-                const divCanvas = document.querySelector("#canvas")
-                divOver.classList.add("visible")
-                divCanvas.classList.add("opacity")
-
-             }, 61000)
+            
         }
         let tableSize = Number(this.size)
-        this.arr = [...Array(tableSize)].map((e) => Array(tableSize).fill(0))
+        this.arr = Array(tableSize).fill("").map((e) => Array(tableSize).fill(0))
         
         this.newCell()
         this.newCell()
@@ -57,73 +53,53 @@ class Game {
 
         if (event.code === "ArrowLeft") {
             this.direction = "left"
-            this.addPairs(this.arr)
-            if(this.gameOver(this.arr) !== false){
-                const divOver = document.querySelector(".hidden")
-                const divCanvas = document.querySelector("#canvas")
-                const time = document.querySelector(".hidden2")
-                time.classList.remove("visible2")
-                divOver.classList.add("visible")
-                divCanvas.classList.add("opacity")
-            }
-        }
-        else if(event.code === "ArrowRight"){
+        }else if(event.code === "ArrowRight"){
             this.direction = "right"
-            this.addPairs(this.arr)
-            if(this.gameOver(this.arr) !== false){
-                const divOver = document.querySelector(".hidden")
-                const divCanvas = document.querySelector("#canvas")
-                const time = document.querySelector(".hidden2")
-                time.classList.remove("visible2")
-                divOver.classList.add("visible")
-                divCanvas.classList.add("opacity")
-
-            }
-        }
-        else if(event.code === "ArrowUp"){
+        }else if(event.code === "ArrowUp"){
             this.direction = "up"
-            this.addPairs(this.arr)
-            if(this.gameOver(this.arr) !== false){
-                const divOver = document.querySelector(".hidden")
-                const divCanvas = document.querySelector("#canvas")
-                const time = document.querySelector(".hidden2")
-                time.classList.remove("visible2")
-                divOver.classList.add("visible")
-                divCanvas.classList.add("opacity")
-            }
         }else if(event.code === "ArrowDown"){
             this.direction = "down"
-            this.addPairs(this.arr)
-            if(this.gameOver(this.arr) !== false){
-                const divOver = document.querySelector(".hidden")
-                const divCanvas = document.querySelector("#canvas")
-                const time = document.querySelector(".hidden2")
-                time.classList.remove("visible2")
-                divOver.classList.add("visible")
-                divCanvas.classList.add("opacity")
-            }
         }
+        this.addPairs(this.arr)
+        this.gameOverScreen()
       };
-    timeleft = (sec)=> {
+    gameOverScreen = () => {
+        if(this.gameOver() !== false){
+            const divOver = document.querySelector(".hidden")
+            const divCanvas = document.querySelector("#canvas")
+            const time = document.querySelector(".hidden2")
+            time.classList.remove("visible2")
+            divOver.classList.add("visible")
+            divCanvas.classList.add("opacity")
+        }
+    }
+    timeleft = ()=> {
         const printTime = document.querySelector("#time")
-        printTime.textContent = `${sec} seconds`
+        console.log(printTime, this.timer)
+        printTime.textContent = `${this.timer} seconds`
     }
 
     countdown = () => {
-        let i = 60
-        const countdownInterval = setInterval(()=>{
-            this.timeleft(i)
-            i--
-            if(i < 0 || this.gameOver(this.arr) !== false){
-                clearInterval(countdownInterval)   
-            }   
+        if(this.countdownID) clearInterval(this.countdownID)
+        this.countdownID = setInterval(()=>{
+            if(this.timer <= 0){    
+                this.stop()
+                const divOver = document.querySelector(".hidden")
+                const divCanvas = document.querySelector("#canvas")
+                divOver.classList.add("visible")
+                divCanvas.classList.add("opacity")
+            }
+            this.timeleft()
+            this.timer--
+        
+            if(this.timer < 0 || this.gameOver() !== false){
+                clearInterval(this.countdownID)   
+            }  
         }, 1000);
-        }
-
-    gameOver=(arr)=> {
+    }
+    gameOver=()=> {
 
         let gameover = true
-        console.log(this.arr)
         this.arr.map((arr)=>{
             arr.map((a, index)=>{
                 if(a === arr[index+1]){
@@ -135,7 +111,7 @@ class Game {
         for(let i = 0; i<this.arr.length ; i++){
             verticalArr.push([])
         }
-        let newarr = arr.slice()
+        let newarr = this.arr.slice()
         newarr.map((a)=>{
             a.map((b, index)=>{
                 verticalArr[index].push(b)
@@ -167,24 +143,34 @@ class Game {
         return this.high
     }
 
-
     tryAgain = () => {
         this.getHigh()
         this.arr = null
         this.score = 0
+        this.timer = 60
         const divOver = document.querySelector(".visible")
         const divCanvas = document.querySelector("#canvas")
         divOver.classList.remove("visible")
         divCanvas.classList.remove("opacity")
-        this.start(this.newHigh)
+        this.start(this.size, this.mode, this.newHigh)
     }
+    returnSplash = () => {
+        this.getHigh()
+        this.arr = null
+        this.score = 0
+        this.gameover = true
+        clearInterval(this.countdownID)
+        // Once interval has been cleared we have to restart the counter to begin from 60 again
+        this.timer = 60
+        splash()
+    }
+
     changeSettings = () => {
         this.getHigh()
         this.arr = null
         this.score = 0
         splash()
 
-        
     }
     drawTable =(table, tableSize) =>{
         let size = Number(tableSize * 100)
