@@ -168,7 +168,11 @@ body {
   font-size: 25px;
   display: block;
   color: red;
-  font-weight: bold;
+  border: 1px solid;
+  width: 80%;
+  left: 10%;
+  position: relative;
+  border-radius: 10px;
 }
 
 #time{
