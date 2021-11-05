@@ -29,9 +29,11 @@ const isChecked = ()=>{
 const splash = () => {
     buildDom(     
         `
-        <img id="logo" src="/ownGame/img/logo.png" alt="Combine Squares">
+        <div class="logo">
+            <img id="logo" src="/img/logo3.png" alt="Combine Squares">
+        </div>
         <div class="select">
-            <h1>Select table</h1>
+            <h3>Select table</h3>
             <select name="select" onchange="val()">
                 <option value="3">3x3</option>
                 <option value="4">4x4</option>
@@ -61,14 +63,17 @@ const splash = () => {
 
         buildDom(
         `
-        <img id="logo" src="/ownGame/img/logo.png" alt="Combine Squares">
+        <div class="logo2">
+            <img id="logo" src="/img/logoGame.png" alt="Combine Squares">
+        </div>
         <div id="game-board">
             <div id="canvascontainer">
                 <canvas id="canvas"></canvas>
-                <div id="rest">
+            </div>
+            <div id="rest">
                     <div id="scoreContainer">
                         <div class="boxscore">
-                            <div>High Score</div>
+                            <div>Best</div>
                             <div id="highscore"></div>
                         </div>
                         <div class="boxscore">
@@ -77,17 +82,18 @@ const splash = () => {
                         </div>
                     </div>
                     <div>
-                        <div>Time left: <span id="time"></span></div>
-                        <div class="gameOver">
-                            <div class="hidden">
+                        <div class="hidden2">Time left: <span id="time"></span></div>
+                        <div id="over" class="gameOver">
+                            <div id="divOver" class="hidden">
                                 <h2>Game Over!!</h2>
-                                <button id="game">TRY AGAIN</button>
+                                <div class=""buttons>
+                                <button id="change">Change Settings</button>
+                                <button id="game">Try Again</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-                
+                </div>   
         
         </div>  
         
@@ -99,7 +105,7 @@ const splash = () => {
         game.start();
         
         let tryagain = document.querySelector("#game").addEventListener("click", game.tryAgain)    
-
+        let change = document.querySelector("#change").addEventListener("click", game.changeSettings)
     }
 
     //Third Screen

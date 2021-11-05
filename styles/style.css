@@ -1,13 +1,11 @@
 body {
     text-align: center;
     font-family: system-ui;
-    background-color: cornsilk;
+    background-color: floralwhite;
+    margin: 0;
+    padding: 0
   }
   
-  body h1 {
-    font-size: 30px;
-    text-transform: uppercase;
-  }
   
   body button {
     font-size: 20px;
@@ -22,12 +20,18 @@ body {
   #startButton {
     margin-top: 60px;
   }
-
   
   #canvas {
     border: 2px solid black;
+    border-radius: 10px;
+
   }
-  
+  #return{
+    margin-top: 20px;
+    width: 50%;
+    left: 25%;
+    position: relative;
+  }
   select {
     width: 100px;
     height: 35px;
@@ -41,6 +45,9 @@ body {
     position: relative;
     top: 100px;
   }
+  .select2{
+    top: 100px;
+  }
   .hidden{
     display: none
   }
@@ -52,16 +59,19 @@ body {
   }
 
   #canvascontainer {
-    margin-top: 100px;
-    width: 100%;
+    margin-top: 25px;
     display: flex;
     justify-content: space-evenly;
+    flex-direction: column;
 
   }
-  #rest{
+  #rest{  
     width: 400px;
   }
-
+  h3 {
+    font-family: system-ui;
+    font-size: 25px;
+  }
   #game-board {
     display: flex;
     align-items: center;
@@ -71,7 +81,6 @@ body {
   .gameOver {
     width: 100%;
     height: 100%;
-    background-color: aquamarine
   }
 
   #scoreContainer {
@@ -80,13 +89,22 @@ body {
     flex-wrap: nowrap;
     justify-content: space-around;
     margin-bottom: 50px;
-    height: 60px;
-    border: 1px solid;
+    height: auto;
+  
   }
   .boxscore {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border: 1px solid;
+    padding: 10px;
+    min-width: 80px;
+    min-height: 35px;
+    border-radius: 10px;
+    justify-content: space-around;
+    background-color: darksalmon;
+    font-weight: bold;
+    color: white;
   }
   .selected{
     background: green
@@ -103,6 +121,7 @@ body {
     justify-content: center;
     background-color: darkseagreen;
     color: white;
+    font-size: 20px;
 }
 
 .mode input[type=radio] {
@@ -119,4 +138,74 @@ body {
 }
 .error{
   color: red;
+}
+#logo{
+  width: 260px;
+}
+.logo2 {
+  width: 100%;
+  display: flex;
+  background-color:darkseagreen   
+
+}
+.logo{
+    background-color: darkseagreen;
+    position: absolute;
+    top: 0;
+    width: 40%;
+    height: 100%;
+
+}
+.hidden2 {
+  display: none;
+
+}
+
+.visible2 {
+  font-size: 25px;
+  display: block;
+  color: red;
+  font-weight: bold;
+}
+
+#time{
+  font-size: 25px;
+}
+#over {
+  margin-top: 40px;
+}
+
+@media (max-width: 600px) {
+  #canvascontainer{
+    width: 70%;
+
+  }
+  #canvas {
+    width: 100%;
+    margin-bottom: 50px;
+  }
+  #game-board{
+    flex-direction: column
+  }
+  .logo{
+    position: relative;
+    width: 100%;
+  }
+  .select{
+    width: 100%;
+    left: 0;
+    position: relative;
+    top: 40px;
+  }
+  .logo2{
+    display:block
+  }
+  #return {
+    margin-top: 0px;
+    width: 100%;
+    left: 0;
+    
+
+
+  }
 }

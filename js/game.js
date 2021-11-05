@@ -4,17 +4,30 @@ class Game {
         this.canvas = null;
         this.ctx = null;
         this.score = 0; 
-        this.arr = null;
         this.direction = "null";
         this.mode = mode
         this.size = size;
         this.high = 0
+        this.endthisgame = false
     }
     start = (currentHigh)=>{ 
+        //check in case of settings being changed after a game
+        const divOver = document.querySelector("#divOver")
+        const divCanvas = document.querySelector("#canvas")
+        divOver.classList.remove("visible")
+        divOver.classList.add("hidden")
+        divCanvas.classList.remove("opacity")
+        // ---
         this.printHigh()
         if(currentHigh > this.high){
             this.high = currentHigh
-        }     
+        } 
+        const timeOnScreen = document.querySelector(".hidden2") 
+        if(this.mode === "timer"){
+            timeOnScreen.classList.add("visible2")} 
+        else if(this.mode !== "timer"){
+            timeOnScreen.classList.remove("visible2")
+        }  
         if(this.mode === "timer"){
             this.countdown()
             setTimeout(()=>{ 
@@ -25,7 +38,7 @@ class Game {
                 divOver.classList.add("visible")
                 divCanvas.classList.add("opacity")
 
-             }, 5000)
+             }, 61000)
         }
         let tableSize = Number(this.size)
         this.arr = [...Array(tableSize)].map((e) => Array(tableSize).fill(0))
@@ -48,6 +61,8 @@ class Game {
             if(this.gameOver(this.arr) !== false){
                 const divOver = document.querySelector(".hidden")
                 const divCanvas = document.querySelector("#canvas")
+                const time = document.querySelector(".hidden2")
+                time.classList.remove("visible2")
                 divOver.classList.add("visible")
                 divCanvas.classList.add("opacity")
             }
@@ -58,6 +73,8 @@ class Game {
             if(this.gameOver(this.arr) !== false){
                 const divOver = document.querySelector(".hidden")
                 const divCanvas = document.querySelector("#canvas")
+                const time = document.querySelector(".hidden2")
+                time.classList.remove("visible2")
                 divOver.classList.add("visible")
                 divCanvas.classList.add("opacity")
 
@@ -69,6 +86,8 @@ class Game {
             if(this.gameOver(this.arr) !== false){
                 const divOver = document.querySelector(".hidden")
                 const divCanvas = document.querySelector("#canvas")
+                const time = document.querySelector(".hidden2")
+                time.classList.remove("visible2")
                 divOver.classList.add("visible")
                 divCanvas.classList.add("opacity")
             }
@@ -78,6 +97,8 @@ class Game {
             if(this.gameOver(this.arr) !== false){
                 const divOver = document.querySelector(".hidden")
                 const divCanvas = document.querySelector("#canvas")
+                const time = document.querySelector(".hidden2")
+                time.classList.remove("visible2")
                 divOver.classList.add("visible")
                 divCanvas.classList.add("opacity")
             }
@@ -89,21 +110,24 @@ class Game {
     }
 
     countdown = () => {
-        let i = 4
+        let i = 60
         const countdownInterval = setInterval(()=>{
             this.timeleft(i)
             i--
-            if(i < 0) clearInterval(countdownInterval)   
+            if(i < 0 || this.gameOver(this.arr) !== false){
+                clearInterval(countdownInterval)   
+            }   
         }, 1000);
         }
 
     gameOver=(arr)=> {
 
-        let gameOver = null
+        let gameover = true
+        console.log(this.arr)
         this.arr.map((arr)=>{
             arr.map((a, index)=>{
                 if(a === arr[index+1]){
-                   return gameOver = false
+                   return gameover = false
                 }
             })
         })   
@@ -117,27 +141,23 @@ class Game {
                 verticalArr[index].push(b)
             })
         })
-        verticalArr
         verticalArr = verticalArr.map((arr)=>{
             arr.map((a, index)=>{
                 if(a === arr[index+1]){
-                    gameOver = false
+                    gameover = false
                 }
             })
         }) 
         let countBlank = 0
         for(let elem of this.arr){
-            
-            elem
             elem.map((a)=> {
                 if (a === 0){ countBlank++}
             })
         }
         if(countBlank > 0){
-            gameOver = false
+            gameover = false
         }
-        gameOver
-        return gameOver   
+        return gameover   
     }
     getHigh = () => {
         if(this.score > this.high ){ 
@@ -158,7 +178,14 @@ class Game {
         divCanvas.classList.remove("opacity")
         this.start(this.newHigh)
     }
-    
+    changeSettings = () => {
+        this.getHigh()
+        this.arr = null
+        this.score = 0
+        splash()
+
+        
+    }
     drawTable =(table, tableSize) =>{
         let size = Number(tableSize * 100)
         this.canvas = document.querySelector("canvas");
@@ -170,17 +197,7 @@ class Game {
         let y = 50  
         let x;
         
-        for(let elem of table){  
-            //this.ctx.fillStyle = "white";
-            //this.ctx.lineWidth = 5;
-            //this.ctx.beginPath();
-            //this.ctx.moveTo(line, 0);
-            //this.ctx.lineTo(line, size);
-            //this.ctx.stroke();    
-            //this.ctx.beginPath();
-            //this.ctx.moveTo(0, line);
-            //this.ctx.lineTo(size, line);
-            //this.ctx.stroke();
+        for(let elem of table){ 
             x = 50
                 elem.map((a)=>{
                     a = String(a)
@@ -218,19 +235,31 @@ class Game {
                             524288: "OrangeRed",
                             1048576: "FireBrick"
                         }
+                        Number(a)>1024 ? this.ctx.font = '20px Arial' : this.ctx.font = '25px Arial'
+
                         let keys = Object.keys(colors)
                         if(keys.includes(a)){
                             this.ctx.fillStyle = colors[a];
                             this.ctx.fillRect(x-49, y-49, 100, 100)
                             Number(a)>4 ? this.ctx.fillStyle = 'white' : this.ctx.fillStyle = 'black'
-                            //this.ctx.fillStyle = 'black'
-                            if(a.length === 2){
-                                this.ctx.fillText(a, x-20, y)
-                            }else if(a.length === 3){    
-                                this.ctx.fillText(a, x-30, y)
-                            }else{
+                            if(a.length <= 2){
                                 this.ctx.fillText(a, x-10, y)
+                            }else if(a.length === 3){    
+                                this.ctx.fillText(a, x-20, y)
+                            }else if(a.length === 4){    
+                                this.ctx.fillText(a, x-30, y)
+                            }else if(a.length === 5){    
+                                this.ctx.fillText(a, x-40, y)
+                            }else if(a.length === 6){    
+                                this.ctx.fillText(a, x-50, y)
+                            }else if(a.length === 7){    
+                                this.ctx.fillText(a, x-60, y)
+                            }else if(a.length === 8){    
+                                this.ctx.fillText(a, x-70, y)
+                            }else{
+                                this.ctx.fillText(a, x-60, y)
                             }  
+                            
                             //Create border of cells
                             this.ctx.lineWidth = 1;
                             this.ctx.strokeStyle = 'grey'
@@ -303,7 +332,7 @@ class Game {
                 elem = elem.reverse()
             }
         }
-        this.arr = this.arr.map((a)=> a.filter((a)=>a !== 0)) 
+        if(this.arr){this.arr = this.arr.map((a)=> a.filter((a)=>a !== 0))}
                     
         for(let elem of this.arr){
             elem.map((a, index)=>{ 
