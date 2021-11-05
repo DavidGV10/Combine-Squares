@@ -61,6 +61,11 @@ body {
     color: white;
     height: 100vh
   }
+  #timebar{
+    border-radius: 10px;
+    background: red;
+    color: white;
+  }
   #canvascontainer {
     margin-top: 25px;
     display: flex;

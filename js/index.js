@@ -88,7 +88,7 @@ const splash = () => {
                         </div>
                     </div>
                     <div>
-                        <div class="hidden2">Time left: <span id="time"></span></div>
+                        <div id="timebar" class="hidden2">Time left: <span id="time"></span></div>
                         <div id="over" class="gameOver">
                             <div id="divOver" class="hidden">
                                 <h2>Game Over!!</h2>
