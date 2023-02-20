@@ -10,6 +10,10 @@ class Game {
         this.high = 0
         this.timer = 60;
         this.countdownID = null
+        this.initialX = null
+        this.initialY = null
+        this.finalX = null
+        this.finalY = null
     }
     start = (size= 3, mode="freeplay", currentHigh)=>{ 
         //check in case of settings being changed after a game
@@ -44,9 +48,14 @@ class Game {
         this.drawTable(this.arr, tableSize)
         //bind(this) 
         document.body.addEventListener("keydown", this.handleKeyDown);
+        document.body.addEventListener('touchstart', this.handleStart);
+        document.body.addEventListener('touchend', this.handleEnd);
+        
     }
     stop= ()=>{
-        document.body.removeEventListener("keydown", this.handleKeyDown);    
+        document.body.removeEventListener("keydown", this.handleKeyDown);  
+        document.body.removeEventListener('touchstart', this.handleStart);
+        document.body.removeEventListener('touchend', this.handleEnd);
     }
 
     handleKeyDown = (event)=> {              
@@ -63,6 +72,29 @@ class Game {
         this.addPairs(this.arr)
         this.gameOverScreen()
       };
+
+    handleStart = (event) => {
+        this.initialX = event.changedTouches[0].screenX
+        this.initialY = event.changedTouches[0].screenY
+    };
+    handleEnd = (event) => {
+        this.finalX = event.changedTouches[0].screenX
+        this.finalY = event.changedTouches[0].screenY
+        let resultX = this.initialX - this.finalX
+        let resultY = this.initialY - this.finalY
+        Math.abs(resultX) > Math.abs(resultY) ? this.handleMove({"x":resultX}) : this.handleMove({"y":resultY})
+        
+    };
+    handleMove = (elem) => {
+        if(Object.keys(elem).includes("x")){
+            elem["x"] > 0 ? this.direction = "left" : this.direction = "right"
+        }
+        if(Object.keys(elem).includes("y")){
+            elem["y"] > 0 ? this.direction = "up" : this.direction = "down"
+        }
+        this.addPairs(this.arr)
+        this.gameOverScreen()
+    }
     gameOverScreen = () => {
         if(this.gameOver() !== false){
             const divOver = document.querySelector(".hidden")
